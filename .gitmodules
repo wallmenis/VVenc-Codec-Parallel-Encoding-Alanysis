@@ -1,0 +1,3 @@
+[submodule "vvenc"]
+	path = vvenc
+	url = git@github.com:fraunhoferhhi/vvenc.git
