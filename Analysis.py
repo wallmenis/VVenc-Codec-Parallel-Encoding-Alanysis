@@ -20,7 +20,7 @@ def get_file(path, oftype):
 ROUNDING = 2                                        # How many decimal diggits will be kept when making the graphs
 VIDEO_FRAMERATE = "120"
 VIDEO_RESOLUTION = "1920x1080"
-VVENC_BIN = "vvenc/bin/release-static/vvencapp"     # Path for vvenc binary
+VVENC_BIN = "vvenc/bin/release-static/vvencFFapp"     # Path for vvenc binary
 VIDEO_INPUT = get_file("SourceVideo", ".yuv")       # Input file. Get file function implemented for ease of use
 DATA_OUTPUT = "Data"                                # Outpout directory
 THREAD_NUMBERS = ["2", "4", "6", "8"]               # How many threads are used per instance
@@ -91,7 +91,7 @@ def make_bar_graph(array, name_array, array_title, name_array_title, plot_title,
 if not os.path.isfile(VVENC_BIN):
     print("VVenc not in specified folder.")
     print("")
-    print("Did you forgot to build it? If you want to build it, you may run ./build_vvenc.sh or consult build documentation (https://github.com/fraunhoferhhi/vvenc/wiki/Build) if running from windows.")
+    print("Did you forget to build it? If you want to build it, you may run ./build_vvenc.sh or consult build documentation (https://github.com/fraunhoferhhi/vvenc/wiki/Build) if running from windows.")
     exit()
 
 if VIDEO_INPUT is None:
@@ -105,31 +105,12 @@ if sys.platform == "win32":     # unless shown otherwise...
 # print(len(sys.argv))
 if len(sys.argv) < 3:
     # yuv420p because 4:2:0 video with progressive scan.
-    for CODEC in VIDEO_CODECS:
-        for PRESET in VIDEO_PRESETS:
-            for QP in VIDEO_QP_VALUES:
-                print(
-                    f"Now processing {VIDEO_INPUT} with codec {CODEC} , preset {PRESET} and quantization parameter {QP}."
-                )
-                os.system(
-                    f"ffmpeg -y -benchmark -f rawvideo -pix_fmt yuv420p -s:v {VIDEO_RESOLUTION} -r {VIDEO_FRAMERATE} -i {VIDEO_INPUT} -c:v {CODEC} -c:a copy -preset {PRESET} -qp {QP} {VIDEO_INPUT}-{PRESET}-{QP}-{CODEC}.mkv 2> {VIDEO_INPUT}-{PRESET}-{QP}-{CODEC}.log"
-                )
-                # -y : if the file exists, overwrite it.
-                # -benchmark : shows some performance metrics, we mainly use it to get the time it took to run the codec
-                # -f : force input video format, this time for rawvideo since we have... rawvideo
-                # -pix_fmt : format to force input video into
-                # -s:v : video resolution
-                # -r : video framerate
-                # -i : input video file
-                # -c:v : codec to be used for video encoding
-                # -c:v : codec to be used for audio encoding
-                # -preset : setting codec's preset
-                # -qp : quantization parameter for how much quantization we want the codec to use
-        print(f"Now generating lossless copy of {VIDEO_INPUT} with codec {CODEC}.")
-        os.system(
-            f"ffmpeg -y -benchmark -f rawvideo -pix_fmt yuv420p -s:v {VIDEO_RESOLUTION} -r {VIDEO_FRAMERATE} -i {VIDEO_INPUT} -c:v {CODEC} -c:a copy -preset veryslow -crf 0 {VIDEO_INPUT}-lossless-{CODEC}.mkv 2> {VIDEO_INPUT}-lossless-{CODEC}.log"
-        )
-        # -crf : setting for constant rate factor... basically for how much should the codec adhere to bitrate changes, making it 0, creates the freedom for the codec to compress losslessly.
+    for THREAD in THREAD_NUMBERS:
+        for TILE in TILE_NUMBERS:
+            print(f"Now processing {VIDEO_INPUT} with tiling {TILE}x{TILE} , {THREAD} threads and no WFS")
+            os.system(f"{VVENC_BIN} --InputFile {VIDEO_INPUT} --FrameRate {VIDEO_FRAMERATE} --Size {VIDEO_RESOLUTION} -c yuv420 --Tiles {TILE}x{TILE} --Threads {THREAD} --WaveFrontSynchro 0  --BitstreamFile {DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}.mkv")
+            print(f"Now processing {VIDEO_INPUT} with tiling {TILE}x{TILE} , {THREAD} threads with WFS")
+            os.system(f"{VVENC_BIN} --InputFile {VIDEO_INPUT} --FrameRate {VIDEO_FRAMERATE} --Size {VIDEO_RESOLUTION} -c yuv420 --Tiles {TILE}x{TILE} --Threads {THREAD} --WaveFrontSynchro 1  --BitstreamFile {DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}.mkv")
     print("Generation and processing DONE!")
     for CODEC in VIDEO_CODECS:
         for PRESET in VIDEO_PRESETS:
