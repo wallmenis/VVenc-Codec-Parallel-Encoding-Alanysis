@@ -20,6 +20,7 @@ def get_file(path, oftype):
 ROUNDING = 2                                        # How many decimal diggits will be kept when making the graphs
 VIDEO_FRAMERATE = "120"
 VIDEO_RESOLUTION = "1920x1080"
+VIDEO_BIT_DEPTH = "8"
 VVENC_BIN = "vvenc/bin/release-static/vvencFFapp"     # Path for vvenc binary
 VIDEO_INPUT = get_file("SourceVideo", ".yuv")       # Input file. Get file function implemented for ease of use
 DATA_OUTPUT = "Data"                                # Outpout directory
@@ -108,9 +109,9 @@ if len(sys.argv) < 3:
     for THREAD in THREAD_NUMBERS:
         for TILE in TILE_NUMBERS:
             print(f"Now processing {VIDEO_INPUT} with tiling {TILE}x{TILE} , {THREAD} threads and no WFS")
-            os.system(f"{VVENC_BIN} --InputFile {VIDEO_INPUT} --FrameRate {VIDEO_FRAMERATE} --Size {VIDEO_RESOLUTION} -c yuv420 --Tiles {TILE}x{TILE} --Threads {THREAD} --WaveFrontSynchro 0  --BitstreamFile {DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}.266")
+            os.system(f"{VVENC_BIN} --InputFile {VIDEO_INPUT} --FrameRate {VIDEO_FRAMERATE} --Size {VIDEO_RESOLUTION} --InputBitDepth {VIDEO_BIT_DEPTH} --Tiles {TILE}x{TILE} --Threads {THREAD} --WaveFrontSynchro 0  --BitstreamFile {DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}.266")
             print(f"Now processing {VIDEO_INPUT} with tiling {TILE}x{TILE} , {THREAD} threads with WFS")
-            os.system(f"{VVENC_BIN} --InputFile {VIDEO_INPUT} --FrameRate {VIDEO_FRAMERATE} --Size {VIDEO_RESOLUTION} -c yuv420 --Tiles {TILE}x{TILE} --Threads {THREAD} --WaveFrontSynchro 1  --BitstreamFile {DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}.266")
+            os.system(f"{VVENC_BIN} --InputFile {VIDEO_INPUT} --FrameRate {VIDEO_FRAMERATE} --Size {VIDEO_RESOLUTION} --InputBitDepth {VIDEO_BIT_DEPTH} --Tiles {TILE}x{TILE} --Threads {THREAD} --WaveFrontSynchro 1  --BitstreamFile {DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}.266")
     print("Generation and processing DONE!")
     for CODEC in VIDEO_CODECS:
         for PRESET in VIDEO_PRESETS:
