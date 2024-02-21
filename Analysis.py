@@ -108,9 +108,9 @@ if len(sys.argv) < 3:
     for THREAD in THREAD_NUMBERS:
         for TILE in TILE_NUMBERS:
             print(f"Now processing {VIDEO_INPUT} with tiling {TILE}x{TILE} , {THREAD} threads and no WFS")
-            os.system(f"{VVENC_BIN} --InputFile {VIDEO_INPUT} --FrameRate {VIDEO_FRAMERATE} --Size {VIDEO_RESOLUTION} -c yuv420 --Tiles {TILE}x{TILE} --Threads {THREAD} --WaveFrontSynchro 0  --BitstreamFile {DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}.mkv")
+            os.system(f"{VVENC_BIN} --InputFile {VIDEO_INPUT} --FrameRate {VIDEO_FRAMERATE} --Size {VIDEO_RESOLUTION} -c yuv420 --Tiles {TILE}x{TILE} --Threads {THREAD} --WaveFrontSynchro 0  --BitstreamFile {DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}.266")
             print(f"Now processing {VIDEO_INPUT} with tiling {TILE}x{TILE} , {THREAD} threads with WFS")
-            os.system(f"{VVENC_BIN} --InputFile {VIDEO_INPUT} --FrameRate {VIDEO_FRAMERATE} --Size {VIDEO_RESOLUTION} -c yuv420 --Tiles {TILE}x{TILE} --Threads {THREAD} --WaveFrontSynchro 1  --BitstreamFile {DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}.mkv")
+            os.system(f"{VVENC_BIN} --InputFile {VIDEO_INPUT} --FrameRate {VIDEO_FRAMERATE} --Size {VIDEO_RESOLUTION} -c yuv420 --Tiles {TILE}x{TILE} --Threads {THREAD} --WaveFrontSynchro 1  --BitstreamFile {DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}.266")
     print("Generation and processing DONE!")
     for CODEC in VIDEO_CODECS:
         for PRESET in VIDEO_PRESETS:
