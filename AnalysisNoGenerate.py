@@ -72,14 +72,6 @@ if VIDEO_INPUT is None:
     print("Video file not found. Please check your attributes")
     exit()
 
-for THREAD in THREAD_NUMBERS:
-    for TILE in TILE_NUMBERS:
-        print(f"Now processing {VIDEO_INPUT} with tiling {TILE}x{TILE} , {THREAD} threads and no WPP")
-        os.system(f"{VVENC_BIN} --InputFile {VIDEO_INPUT} -c {VVENC_CONFIG_FILE} --FrameRate {VIDEO_FRAMERATE} --Size {VIDEO_RESOLUTION} --InputBitDepth {VIDEO_BIT_DEPTH} --Tiles {TILE}x{TILE} --Threads {THREAD} --WaveFrontSynchro 0 --InternalBitDepth {VIDEO_BIT_DEPTH} --BitstreamFile {DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}.266 > {DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}.266.log")
-        print(f"Now processing {VIDEO_INPUT} with tiling {TILE}x{TILE} , {THREAD} threads with WPP")
-        os.system(f"{VVENC_BIN} --InputFile {VIDEO_INPUT} -c {VVENC_CONFIG_FILE} --FrameRate {VIDEO_FRAMERATE} --Size {VIDEO_RESOLUTION} --InputBitDepth {VIDEO_BIT_DEPTH} --Tiles {TILE}x{TILE} --Threads {THREAD} --WaveFrontSynchro 1 --InternalBitDepth {VIDEO_BIT_DEPTH}  --BitstreamFile {DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}-WPP.266 > {DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}-WPP.266.log")
-print("Generation and processing DONE!")
-
 times = []
 bitrates = []
 psnrs = []
