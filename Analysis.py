@@ -49,7 +49,7 @@ def make_plot(array1, array2, name_of_array_1, name_of_array_2, plot_name, plot_
     plt.close()
 
 
-def make_bar_graph(array, name_array, array_title, name_array_title, plot_title, plot_file):
+def make_bar_graph(name_array, array, name_array_title, array_title, plot_title, plot_file):
     plt.figure(figsize=(12, 8))
     plt.bar(name_array, array, color='red', width=0.4)
     plt.xlabel(name_array_title)
@@ -155,4 +155,16 @@ times = np.array(times)
 # print(psnrs)
 # print(times)
 
-make_plot(filesizes[0][0], bitrates[0][0], "Filesize (bytes)", "Bitrates (Kbps)", "Filesize VS Bitrate", f"{DATA_OUTPUT}/Filesize_vs_bitrate.svg")
+make_plot(np.array(THREAD_NUMBERS, dtype=float), times[0].T[0], "Number of threads used","Encoding Time (seconds)","Encoding Time vs Number of threads", f"{DATA_OUTPUT}/ET_VS_NT.svg")
+make_plot(np.array(THREAD_NUMBERS, dtype=float), bitrates[0].T[0], "Number of threads used","Average Bitrate (kbps)","Average Bitrate vs Number of threads", f"{DATA_OUTPUT}/ABT_VS_NT.svg")
+make_plot(np.array(THREAD_NUMBERS, dtype=float), psnrs[0].T[0], "Number of threads used","PSNR","PSNR vs Number of threads", f"{DATA_OUTPUT}/PSNR_VS_NT.svg")
+
+
+make_plot(np.array(TILE_NUMBERS, dtype=float), times[0][0], "Number of tiles (cXc where c is the number in the graph) used","Encoding Time (seconds)","Encoding Time vs Number of threads", f"{DATA_OUTPUT}/ET_VS_NTILE.svg")
+make_plot(np.array(TILE_NUMBERS, dtype=float), bitrates[0][0], "Number of tiles (cXc where c is the number in the graph) used","Average Bitrate (kbps)","Average Bitrate vs Number of threads", f"{DATA_OUTPUT}/ABT_VS_NTILE.svg")
+make_plot(np.array(TILE_NUMBERS, dtype=float), psnrs[0][0], "Number of tiles (cXc where c is the number in the graph) used","PSNR","PSNR vs Number of threads", f"{DATA_OUTPUT}/PSNR_VS_NTILE.svg")
+
+
+make_bar_graph(["No WPP", "With WPP"], np.array([times[0][0][0], times[1][0][0]]), "WaveFront Synchronization", "Encoding Time (seconds)", "Encoding Time whether we use WaveFront Syncronization or not", f"{DATA_OUTPUT}/ET_VS_WPP.svg")
+make_bar_graph(["No WPP", "With WPP"], np.array([bitrates[0][0][0], bitrates[1][0][0]]), "WaveFront Synchronization", "Average Bitrate (kbps)", "Average Bitrate whether we use WaveFront Syncronization or not", f"{DATA_OUTPUT}/ABT_VS_WPP.svg")
+make_bar_graph(["No WPP", "With WPP"], np.array([psnrs[0][0][0], psnrs[1][0][0]]), "WaveFront Synchronization", "PSNR", "PSNR Values whether we use WaveFront Syncronization or not", f"{DATA_OUTPUT}/PSNR_VS_WPP.svg")
