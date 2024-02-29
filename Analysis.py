@@ -72,14 +72,6 @@ if VIDEO_INPUT is None:
     print("Video file not found. Please check your attributes")
     exit()
 
-for THREAD in THREAD_NUMBERS:
-    for TILE in TILE_NUMBERS:
-        print(f"Now processing {VIDEO_INPUT} with tiling {TILE}x{TILE} , {THREAD} threads and no WPP")
-        os.system(f"{VVENC_BIN} --InputFile {VIDEO_INPUT} -c {VVENC_CONFIG_FILE} --FrameRate {VIDEO_FRAMERATE} --Size {VIDEO_RESOLUTION} --InputBitDepth {VIDEO_BIT_DEPTH} --Tiles {TILE}x{TILE} --Threads {THREAD} --WaveFrontSynchro 0 --InternalBitDepth {VIDEO_BIT_DEPTH} --BitstreamFile {DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}.266 > {DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}.266.log")
-        print(f"Now processing {VIDEO_INPUT} with tiling {TILE}x{TILE} , {THREAD} threads with WPP")
-        os.system(f"{VVENC_BIN} --InputFile {VIDEO_INPUT} -c {VVENC_CONFIG_FILE} --FrameRate {VIDEO_FRAMERATE} --Size {VIDEO_RESOLUTION} --InputBitDepth {VIDEO_BIT_DEPTH} --Tiles {TILE}x{TILE} --Threads {THREAD} --WaveFrontSynchro 1 --InternalBitDepth {VIDEO_BIT_DEPTH}  --BitstreamFile {DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}-WPP.266 > {DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}-WPP.266.log")
-print("Generation and processing DONE!")
-
 times = []
 bitrates = []
 psnrs = []
@@ -96,8 +88,10 @@ for THREAD in THREAD_NUMBERS:
     psnrinthread = []
     filesizeinthread = []
     for TILE in TILE_NUMBERS:
+        print(f"Now reading filesize of {DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}.266")
         filesizeinthread.append(float(os.stat(f"{DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}.266").st_size))
         with open(f"{DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}.266.log","r") as infile:
+            print(f"Now reading {DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}.266.log")
             lines = infile.readlines()
             for i in range(len(lines)):
                 if re.search("YUV-PSNR", lines[i]):
@@ -128,9 +122,11 @@ for THREAD in THREAD_NUMBERS:
     psnrinthread = []
     filesizeinthread = []
     for TILE in TILE_NUMBERS:
+        print(f"Now reading filesize of {DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}-WPP.266")
         filesizeinthread.append(float(os.stat(f"{DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}-WPP.266").st_size))
         with open(f"{DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}-WPP.266.log","r") as infile:
             lines = infile.readlines()
+            print(f"Now reading {DATA_OUTPUT}/output-threads{THREAD}-tile{TILE}-WPP.266.log")
             for i in range(len(lines)):
                 if re.search("YUV-PSNR", lines[i]):
                     line = lines[i+1].split()
@@ -153,5 +149,10 @@ filesizes = np.array(filesizes)
 bitrates = np.array(bitrates)
 psnrs = np.array(psnrs)
 times = np.array(times)
+
+# print(filesizes)
+# print(bitrates)
+# print(psnrs)
+# print(times)
 
 make_plot(filesizes[0][0], bitrates[0][0], "Filesize (bytes)", "Bitrates (Kbps)", "Filesize VS Bitrate", f"{DATA_OUTPUT}/Filesize_vs_bitrate.svg")
