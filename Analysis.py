@@ -26,8 +26,7 @@ VVENC_BIN = "vvenc/bin/release-static/vvencFFapp"   # Path for vvenc binary
 VIDEO_INPUT = get_file("SourceVideo", ".yuv")       # Input file. Get file function implemented for ease of use
 DATA_OUTPUT = "Data"                                # Outpout directory
 THREAD_NUMBERS = ["1", "2", "4", "6", "8"]          # How many threads are used per instance
-TILE_NUMBERS = ["2", "4", "6", "8"]                 # How many tiles by dimentions to use (eg. if 8 it will do 8
-                                                    # collumns by 8 rows (--Tiles=8x8 when calling vvenc ))
+TILE_NUMBERS = ["2x1", "2x2", "4x2", "4x4"]         # Tile configuration to be used.
 # Checks both with WFS (WaveFront Syncronization) and without will be done regardless
 # We do them by appending --WaveFrontSynchro=1 when calling vvenc for WFS and
 # --WaveFrontSynchro=0 for no WFS
@@ -160,9 +159,9 @@ make_plot(np.array(THREAD_NUMBERS, dtype=float), bitrates[0].T[0], "Number of th
 make_plot(np.array(THREAD_NUMBERS, dtype=float), psnrs[0].T[0], "Number of threads used","PSNR","PSNR vs Number of threads", f"{DATA_OUTPUT}/PSNR_VS_NT.svg")
 
 
-make_plot(np.array(TILE_NUMBERS, dtype=float), times[0][0], "Number of tiles (cXc where c is the number in the graph) used","Encoding Time (seconds)","Encoding Time vs Number of tiles (cXc where c is the number in the graph)", f"{DATA_OUTPUT}/ET_VS_NTILE.svg")
-make_plot(np.array(TILE_NUMBERS, dtype=float), bitrates[0][0], "Number of tiles (cXc where c is the number in the graph) used","Average Bitrate (kbps)","Average Bitrate vs Number of tiles (cXc where c is the number in the graph)", f"{DATA_OUTPUT}/ABT_VS_NTILE.svg")
-make_plot(np.array(TILE_NUMBERS, dtype=float), psnrs[0][0], "Number of tiles (cXc where c is the number in the graph) used","PSNR","PSNR vs Number of tiles (cXc where c is the number in the graph)", f"{DATA_OUTPUT}/PSNR_VS_NTILE.svg")
+make_plot(np.array(TILE_NUMBERS, dtype=float), times[0][0], "Tile configuration used","Encoding Time (seconds)","Encoding Time vs Tile configuration", f"{DATA_OUTPUT}/ET_VS_NTILE.svg")
+make_plot(np.array(TILE_NUMBERS, dtype=float), bitrates[0][0], "Tile configuration used","Average Bitrate (kbps)","Average Bitrate vs Tile configuration", f"{DATA_OUTPUT}/ABT_VS_NTILE.svg")
+make_plot(np.array(TILE_NUMBERS, dtype=float), psnrs[0][0], "Tile configuration used","PSNR","PSNR vs Tile configuration", f"{DATA_OUTPUT}/PSNR_VS_NTILE.svg")
 
 
 make_bar_graph(["No WPP", "With WPP"], np.array([times[0][0][0], times[1][0][0]]), "WaveFront Synchronization", "Encoding Time (seconds)", "Encoding Time whether we use WaveFront Syncronization or not", f"{DATA_OUTPUT}/ET_VS_WPP.svg")
