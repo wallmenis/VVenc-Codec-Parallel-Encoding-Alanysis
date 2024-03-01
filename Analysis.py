@@ -160,9 +160,9 @@ make_plot(np.array(THREAD_NUMBERS, dtype=float), bitrates[0].T[0], "Number of th
 make_plot(np.array(THREAD_NUMBERS, dtype=float), psnrs[0].T[0], "Number of threads used","PSNR","PSNR vs Number of threads", f"{DATA_OUTPUT}/PSNR_VS_NT.svg")
 
 
-make_plot(np.array(TILE_NUMBERS, dtype=float), times[0][0], "Number of tiles (cXc where c is the number in the graph) used","Encoding Time (seconds)","Encoding Time vs Number of threads", f"{DATA_OUTPUT}/ET_VS_NTILE.svg")
-make_plot(np.array(TILE_NUMBERS, dtype=float), bitrates[0][0], "Number of tiles (cXc where c is the number in the graph) used","Average Bitrate (kbps)","Average Bitrate vs Number of threads", f"{DATA_OUTPUT}/ABT_VS_NTILE.svg")
-make_plot(np.array(TILE_NUMBERS, dtype=float), psnrs[0][0], "Number of tiles (cXc where c is the number in the graph) used","PSNR","PSNR vs Number of threads", f"{DATA_OUTPUT}/PSNR_VS_NTILE.svg")
+make_plot(np.array(TILE_NUMBERS, dtype=float), times[0][0], "Number of tiles (cXc where c is the number in the graph) used","Encoding Time (seconds)","Encoding Time vs Number of tiles (cXc where c is the number in the graph)", f"{DATA_OUTPUT}/ET_VS_NTILE.svg")
+make_plot(np.array(TILE_NUMBERS, dtype=float), bitrates[0][0], "Number of tiles (cXc where c is the number in the graph) used","Average Bitrate (kbps)","Average Bitrate vs Number of tiles (cXc where c is the number in the graph)", f"{DATA_OUTPUT}/ABT_VS_NTILE.svg")
+make_plot(np.array(TILE_NUMBERS, dtype=float), psnrs[0][0], "Number of tiles (cXc where c is the number in the graph) used","PSNR","PSNR vs Number of tiles (cXc where c is the number in the graph)", f"{DATA_OUTPUT}/PSNR_VS_NTILE.svg")
 
 
 make_bar_graph(["No WPP", "With WPP"], np.array([times[0][0][0], times[1][0][0]]), "WaveFront Synchronization", "Encoding Time (seconds)", "Encoding Time whether we use WaveFront Syncronization or not", f"{DATA_OUTPUT}/ET_VS_WPP.svg")
