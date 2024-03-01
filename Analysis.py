@@ -167,3 +167,7 @@ make_plot(TILE_NUMBERS, psnrs[0][0], "Tile configuration used","PSNR","PSNR vs T
 make_bar_graph(["No WPP", "With WPP"], np.array([times[0][0][0], times[1][0][0]]), "WaveFront Synchronization", "Encoding Time (seconds)", "Encoding Time whether we use WaveFront Syncronization or not", f"{DATA_OUTPUT}/ET_VS_WPP.svg")
 make_bar_graph(["No WPP", "With WPP"], np.array([bitrates[0][0][0], bitrates[1][0][0]]), "WaveFront Synchronization", "Average Bitrate (kbps)", "Average Bitrate whether we use WaveFront Syncronization or not", f"{DATA_OUTPUT}/ABT_VS_WPP.svg")
 make_bar_graph(["No WPP", "With WPP"], np.array([psnrs[0][0][0], psnrs[1][0][0]]), "WaveFront Synchronization", "PSNR", "PSNR Values whether we use WaveFront Syncronization or not", f"{DATA_OUTPUT}/PSNR_VS_WPP.svg")
+
+make_plot(np.array(THREAD_NUMBERS, dtype=float), times[1].T[0], "Number of threads used","Encoding Time (seconds)","Encoding Time vs Number of threads with WPP", f"{DATA_OUTPUT}/ET_VS_NT_WPP.svg")
+make_plot(np.array(THREAD_NUMBERS, dtype=float), bitrates[1].T[0], "Number of threads used","Average Bitrate (kbps)","Average Bitrate vs Number of threads with WPP", f"{DATA_OUTPUT}/ABT_VS_NT_WPP.svg")
+make_plot(np.array(THREAD_NUMBERS, dtype=float), psnrs[1].T[0], "Number of threads used","PSNR","PSNR vs Number of threads with WPP", f"{DATA_OUTPUT}/PSNR_VS_NT_WPP.svg")
