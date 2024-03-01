@@ -24,7 +24,7 @@ VVENC_BIN = "vvenc/bin/release-static/vvencFFapp"   # Path for vvenc binary
 VIDEO_INPUT = get_file("SourceVideo", ".yuv")       # Input file. Get file function implemented for ease of use
 DATA_OUTPUT = "Data"                                # Outpout directory
 THREAD_NUMBERS = ["1", "2", "4", "6", "8"]          # How many threads are used per instance
-TILE_NUMBERS = ["2x1", "2x2", "4x2", "4x4"]         # Tile configuration to be used.
+TILE_NUMBERS = ["2x1", "2x2", "3x2", "4x2"]         # Tile configuration to be used.
 # Checks both with WFS (WaveFront Syncronization) and without will be done regardless
 # We do them by appending --WaveFrontSynchro=1 when calling vvenc for WFS and
 # --WaveFrontSynchro=0 for no WFS
